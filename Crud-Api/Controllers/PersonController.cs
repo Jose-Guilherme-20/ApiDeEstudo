@@ -27,7 +27,7 @@ namespace Crud_Api.Controllers
         [ProducesResponseType((204))]
         [ProducesResponseType((400))]
         [ProducesResponseType((500))]
-        [Authorize]
+
         public ActionResult<List<Person>> GetAll()
         {
             return Ok(_personService.FindAll());
@@ -52,6 +52,17 @@ namespace Crud_Api.Controllers
                 return BadRequest();
             }
             return Ok(_personService.FindByName(name, lastName));
+        }
+
+        [HttpGet("{sortDirection}/{pageSize}/{page}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+
+        public IActionResult Get([FromQuery] string name, string sortDirection, int pageSize, int page)
+        {
+            return Ok(_personService.FindWithPagedSearch(name, sortDirection, pageSize, page));
         }
     }
 }

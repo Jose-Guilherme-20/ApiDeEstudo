@@ -8,6 +8,7 @@ using Crud_Api.Context;
 using Repository.Interfaces;
 using System.Threading.Tasks;
 using Crud_Api.Services.Interfaces;
+using Crud_Api.Model;
 
 namespace Services
 {
@@ -39,6 +40,32 @@ namespace Services
         public List<Person> FindByName(string name, string lastName)
         {
             return _personRepository.FindByName(name, lastName);
+        }
+
+        public ModelPagened<Person> FindWithPagedSearch(string name, string sortDirection, int pageSize, int page)
+        {
+
+            var sort = (!string.IsNullOrWhiteSpace(sortDirection)) && !sortDirection.Equals("desc") ? "asc" : "desc";
+            var size = (pageSize < 1) ? 10 : pageSize;
+            var offset = page > 0 ? (page - 1) * size : 0;
+
+            string query = @"select * from person p where 1 = 1 ";
+            if (!string.IsNullOrWhiteSpace(name)) query = query + $" and p.first_name like '%{name}%' ";
+            query += $" order by p.first_name {sort} limit {size} offset {offset}";
+
+            string countQuery = @" select count(*) from person p where 1 = 1 ";
+            if (!string.IsNullOrWhiteSpace(name)) countQuery = countQuery + $" and p.name like '%{name}%' ";
+            var persons = _context.FindWithPagedSearch(query);
+            int totalResults = _context.GetCount(countQuery);
+
+            return new ModelPagened<Person>
+            {
+                CurrentPage = page,
+                List = persons,
+                PageSize = size,
+                SortDirections = sortDirection,
+                TotalResults = totalResults,
+            };
         }
 
         public async Task<Person> FindyById(long id)

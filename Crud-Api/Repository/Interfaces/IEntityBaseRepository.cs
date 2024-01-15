@@ -10,7 +10,8 @@ namespace Repository.Interfaces
         Task<T> Update(T obj);
         void Remove(T obj);
         List<T> FindAll();
-
+        List<T> FindWithPagedSearch(string query);
+        int GetCount(string query);
 
     }
 }
