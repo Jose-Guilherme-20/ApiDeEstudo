@@ -42,7 +42,7 @@ namespace Services
             return _personRepository.FindByName(name, lastName);
         }
 
-        public ModelPagened<Person> FindWithPagedSearch(string name, string sortDirection, int pageSize, int page)
+        public ModelPagened<Person> FindWithPagedSearch(string? name, string sortDirection, int pageSize, int page)
         {
 
             var sort = (!string.IsNullOrWhiteSpace(sortDirection)) && !sortDirection.Equals("desc") ? "asc" : "desc";

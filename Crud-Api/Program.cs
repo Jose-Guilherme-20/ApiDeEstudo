@@ -45,6 +45,16 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Nome do seu API", Version = "v1" });
 });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowOrigin",
+        builder => builder
+            .WithOrigins("http://localhost:3000") // Coloque a origem do seu frontend
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials() // Adicione isso se você estiver usando credenciais (cookies, cabeçalhos de autenticação, etc.)
+    );
+});
 
 var app = builder.Build();
 
@@ -65,6 +75,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors(c => c.AllowAnyHeader()
+.AllowAnyOrigin()
+.AllowAnyMethod());
 
 app.UseAuthorization();
 

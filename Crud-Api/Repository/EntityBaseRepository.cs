@@ -37,7 +37,7 @@ namespace Repository
         }
         public void Dispose()
         {
-
+            Db.Dispose();
         }
 
         public List<T> FindAll()

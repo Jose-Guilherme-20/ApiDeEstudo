@@ -23,5 +23,11 @@ namespace Crud_Api.Controllers
             _bookService.Create(book);
             return Ok(book);
         }
+        [HttpGet("{sortDirection}/{pageSize}/{page}")]
+
+        public IActionResult FindPagened([FromQuery] string? name, string sortDirection, int pageSize, int page)
+        {
+            return Ok(_bookService.FindWithPagedSearch(name, sortDirection, pageSize, page));
+        }
     }
 }

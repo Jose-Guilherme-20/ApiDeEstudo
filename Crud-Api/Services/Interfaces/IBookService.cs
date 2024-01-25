@@ -10,5 +10,6 @@ namespace Crud_Api.Services.Interfaces
     {
         Task<List<Book>> FindAll();
         Book Create(Book book);
+        ModelPagened<Book> FindWithPagedSearch(string? name, string sortDirection, int pageSize, int page);
     }
 }

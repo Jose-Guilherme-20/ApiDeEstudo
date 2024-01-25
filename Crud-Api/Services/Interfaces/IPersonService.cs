@@ -16,6 +16,6 @@ namespace Services.Interfaces
         List<Person> FindAll();
         Person LoginPerson(Person person);
         List<Person> FindByName(string name, string lastName);
-        ModelPagened<Person> FindWithPagedSearch(string name, string sortDirection, int pageSize, int page);
+        ModelPagened<Person> FindWithPagedSearch(string? name, string sortDirection, int pageSize, int page);
     }
 }
